@@ -33,8 +33,9 @@ const Profile = () => {
   const rejectedVideos = userVideos.filter(v => v.status === 'rejected').length;
 
   // Calculate progress towards next milestone
-  const nextMilestone = Math.ceil(user.contributionsCount / 10) * 10;
-  const progressPercentage = (user.contributionsCount / nextMilestone) * 100;
+  const contributionsCount = user.contributionsCount || 0;
+  const nextMilestone = Math.ceil(contributionsCount / 10) * 10 || 10;
+  const progressPercentage = (contributionsCount / nextMilestone) * 100;
 
   const badgeColors = {
     'First Contribution': 'bg-success text-success-foreground',
@@ -53,19 +54,19 @@ const Profile = () => {
             <div className="flex items-center space-x-6">
               <Avatar className="w-24 h-24 border-4 border-primary/20">
                 <AvatarFallback className="text-2xl font-bold bg-primary text-primary-foreground">
-                  {user.username.charAt(0).toUpperCase()}
+                  {user.name.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1">
                 <CardTitle className="text-3xl font-bold text-card-foreground mb-2">
-                  {user.username}
+                  {user.name}
                 </CardTitle>
                 <CardDescription className="text-lg text-muted-foreground mb-4">
                   {user.email}
                 </CardDescription>
                 <div className="flex items-center text-sm text-muted-foreground">
                   <Calendar className="h-4 w-4 mr-2" />
-                  Joined {new Date(user.joinedDate).toLocaleDateString('en-US', { 
+                  Joined {new Date(user.created_at).toLocaleDateString('en-US', { 
                     year: 'numeric', 
                     month: 'long', 
                     day: 'numeric' 
@@ -90,7 +91,7 @@ const Profile = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div className="text-center">
                     <div className="text-3xl font-bold text-primary mb-1">
-                      {user.contributionsCount}
+                      {contributionsCount}
                     </div>
                     <div className="text-sm text-muted-foreground">Total Contributions</div>
                   </div>
@@ -118,7 +119,7 @@ const Profile = () => {
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm font-medium">Progress to next milestone</span>
                     <span className="text-sm text-muted-foreground">
-                      {user.contributionsCount} / {nextMilestone}
+                      {contributionsCount} / {nextMilestone}
                     </span>
                   </div>
                   <Progress value={progressPercentage} className="h-2" />
@@ -194,7 +195,7 @@ const Profile = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                {user.badgesEarned.length > 0 ? (
+                {user.badgesEarned && user.badgesEarned.length > 0 ? (
                   <div className="space-y-3">
                     {user.badgesEarned.map((badge) => (
                       <div key={badge} 

@@ -15,6 +15,7 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
+    phone: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -34,7 +35,7 @@ const Auth = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.email || !formData.password) {
+    if (!formData.phone || !formData.password) {
       toast({
         title: "Error",
         description: "Please fill in all fields",
@@ -43,7 +44,7 @@ const Auth = () => {
       return;
     }
 
-    const success = await login(formData.email, formData.password);
+    const success = await login(formData.phone, formData.password);
     if (success) {
       toast({
         title: "Welcome back!",
@@ -52,7 +53,7 @@ const Auth = () => {
     } else {
       toast({
         title: "Login Failed",
-        description: "Invalid email or password. Try email: alex@example.com, password: password",
+        description: "Invalid phone number or password. Please check your credentials.",
         variant: "destructive"
       });
     }
@@ -121,13 +122,13 @@ const Auth = () => {
             <TabsContent value="login">
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="phone">Phone Number</Label>
                   <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={formData.email}
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    placeholder="Enter your phone number"
+                    value={formData.phone}
                     onChange={handleInputChange}
                     disabled={isLoading}
                     className="h-12"
@@ -268,9 +269,8 @@ const Auth = () => {
           </Tabs>
 
           <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p>Demo credentials:</p>
-            <p><strong>Email:</strong> alex@example.com</p>
-            <p><strong>Password:</strong> password</p>
+            <p>Use your registered phone number and password to login.</p>
+            <p>Contact support if you need help accessing your account.</p>
           </div>
         </CardContent>
       </Card>

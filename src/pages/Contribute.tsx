@@ -164,7 +164,7 @@ const Contribute = () => {
       thumbnailUrl: '/placeholder.svg', // In a real app, generate thumbnail
       metadata: metadata as any,
       contributorId: user.id,
-      contributorName: user.username
+      contributorName: user.name
     });
 
     toast({
